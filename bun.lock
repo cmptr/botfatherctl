@@ -3,7 +3,7 @@
   "configVersion": 1,
   "workspaces": {
     "": {
-      "name": "telegram-botfather",
+      "name": "botfatherctl",
       "dependencies": {
         "telegram": "^2.26.22",
       },
