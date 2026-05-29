@@ -9,6 +9,9 @@ const packageJson = JSON.parse(readFileSync("package.json", "utf8")) as {
 	files: string[];
 	scripts: Record<string, string>;
 	types: string;
+	repository: { type: string; url: string };
+	homepage: string;
+	bugs: { url: string };
 };
 
 describe("npm publish metadata", () => {
@@ -21,6 +24,16 @@ describe("npm publish metadata", () => {
 		});
 		expect(packageJson.types).toBe("./dist/index.d.ts");
 		expect(packageJson.files).toEqual(["dist/", "README.md", "LICENSE"]);
+		expect(packageJson.repository).toEqual({
+			type: "git",
+			url: "git+https://github.com/cmptr/botfatherctl.git",
+		});
+		expect(packageJson.homepage).toBe(
+			"https://github.com/cmptr/botfatherctl#readme",
+		);
+		expect(packageJson.bugs).toEqual({
+			url: "https://github.com/cmptr/botfatherctl/issues",
+		});
 		expect(packageJson.scripts.build).toBe("tsc -p tsconfig.build.json");
 		expect(packageJson.scripts.prepublishOnly).toContain("npm pack --dry-run");
 	});

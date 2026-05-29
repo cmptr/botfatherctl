@@ -12,6 +12,14 @@
     "automation"
   ],
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cmptr/botfatherctl.git"
+  },
+  "homepage": "https://github.com/cmptr/botfatherctl#readme",
+  "bugs": {
+    "url": "https://github.com/cmptr/botfatherctl/issues"
+  },
   "type": "module",
   "bin": {
     "botfatherctl": "dist/cli.js"
