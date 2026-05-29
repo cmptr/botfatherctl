@@ -81,9 +81,37 @@ async function withConversation<T>(
 	}
 }
 
+const usage = `Usage:
+  botfatherctl login --api-id ID --api-hash HASH [--config PATH]
+  botfatherctl create-bot --name NAME --username USERNAME [--config PATH]
+  botfatherctl get-token --bot USERNAME [--config PATH]
+  botfatherctl revoke-token --bot USERNAME [--config PATH]
+  botfatherctl set-name --bot USERNAME --name NAME [--config PATH]
+  botfatherctl set-description --bot USERNAME --description TEXT [--config PATH]
+  botfatherctl set-about-text --bot USERNAME --about TEXT [--config PATH]
+  botfatherctl set-commands --bot USERNAME --commands FILE [--config PATH]
+  botfatherctl set-join-groups --bot USERNAME --enabled true|false [--config PATH]
+  botfatherctl set-privacy --bot USERNAME --enabled true|false [--config PATH]
+  botfatherctl delete-bot --bot USERNAME --confirm USERNAME [--config PATH]
+`;
+
+function isHelpCommand(command: string | undefined): boolean {
+	return (
+		command === undefined ||
+		command === "help" ||
+		command === "--help" ||
+		command === "-h"
+	);
+}
+
 async function run(): Promise<void> {
 	const { command, options } = parseArgs(process.argv.slice(2));
 	const configPath = optionalString(options, "config");
+
+	if (isHelpCommand(command)) {
+		output.write(usage);
+		return;
+	}
 
 	switch (command) {
 		case "login": {
@@ -206,10 +234,8 @@ async function run(): Promise<void> {
 			return;
 		}
 		default:
-			output.write(
-				`Usage:\n  botfatherctl login --api-id ID --api-hash HASH [--config PATH]\n  botfatherctl create-bot --name NAME --username USERNAME [--config PATH]\n  botfatherctl get-token --bot USERNAME [--config PATH]\n  botfatherctl revoke-token --bot USERNAME [--config PATH]\n  botfatherctl set-name --bot USERNAME --name NAME [--config PATH]\n  botfatherctl set-description --bot USERNAME --description TEXT [--config PATH]\n  botfatherctl set-about-text --bot USERNAME --about TEXT [--config PATH]\n  botfatherctl set-commands --bot USERNAME --commands FILE [--config PATH]\n  botfatherctl set-join-groups --bot USERNAME --enabled true|false [--config PATH]\n  botfatherctl set-privacy --bot USERNAME --enabled true|false [--config PATH]\n  botfatherctl delete-bot --bot USERNAME --confirm USERNAME [--config PATH]\n`,
-			);
-			if (command) throw new Error(`Unknown command: ${command}`);
+			output.write(usage);
+			throw new Error(`Unknown command: ${command}`);
 	}
 }
 
