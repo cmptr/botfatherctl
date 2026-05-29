@@ -1,27 +1,46 @@
 {
   "name": "botfatherctl",
   "version": "0.1.0",
-  "private": true,
+  "private": false,
   "description": "Unofficial CLI and TypeScript library for automating Telegram BotFather with GramJS",
-  "keywords": ["telegram", "botfather", "gramjs", "bot", "cli", "automation"],
+  "keywords": [
+    "telegram",
+    "botfather",
+    "gramjs",
+    "bot",
+    "cli",
+    "automation"
+  ],
   "license": "MIT",
   "type": "module",
   "bin": {
-    "botfatherctl": "./src/cli.ts"
+    "botfatherctl": "dist/cli.js"
   },
   "exports": {
-    ".": "./src/index.ts"
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
   },
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist/",
+    "README.md",
+    "LICENSE"
+  ],
   "scripts": {
     "botfatherctl": "bun run src/cli.ts",
+    "build": "tsc -p tsconfig.build.json",
     "test": "bun test",
-    "typecheck": "tsc --noEmit -p tsconfig.json"
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "prepublishOnly": "bun test && bun run typecheck && bun run build && npm pack --dry-run"
   },
   "dependencies": {
     "telegram": "^2.26.22"
   },
   "devDependencies": {
     "@types/bun": "^1.2.0",
+    "@types/node": "^24.0.0",
     "typescript": "^5.8.0"
   }
 }

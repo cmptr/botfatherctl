@@ -11,7 +11,7 @@ const packageJson = JSON.parse(readFileSync("package.json", "utf8")) as {
 describe("package metadata", () => {
 	test("uses botfatherctl for package, binary, and local script names", () => {
 		expect(packageJson.name).toBe("botfatherctl");
-		expect(packageJson.bin.botfatherctl).toBe("./src/cli.ts");
+		expect(packageJson.bin.botfatherctl).toBe("dist/cli.js");
 		expect(packageJson.scripts.botfatherctl).toBe("bun run src/cli.ts");
 	});
 });
